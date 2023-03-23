@@ -6,8 +6,8 @@ c.height = window.innerHeight;
 
 
 const cursor = {
-	x:0,
-	y:0
+	x:undefined,
+	y:undefined
 }
 
 document.body.addEventListener('mousemove',e=>{
@@ -19,12 +19,13 @@ document.body.addEventListener('mousemove',e=>{
 class Particle {
 	static list = [];
 	static count = 25;
+	friction = .99;
 
 	constructor() {
 		this.x = Math.random() * c.width;
 		this.y = Math.random() * c.height;
-		this.vx = 0;
 		this.vy = 0;
+		this.vx = 0;
 
 		this.constructor.list.push(this);
 	}
@@ -37,6 +38,25 @@ class Particle {
 
 	update() {
 
+		if (cursor.x == undefined || cursor.y == undefined) return;
+
+		// This is horrifying
+		let vectorNormal = Math.atan2(cursor.y-this.y, cursor.x-this.x);
+
+		// Bounce off walls
+		if (this.y < 0) this.vy = Math.abs(this.vy);
+		if (this.x < 0) this.vx = Math.abs(this.vx);
+		if (this.y > c.height) this.vy = -Math.abs(this.vy);
+		if (this.x > c.width) this.vx = -Math.abs(this.vx);
+		
+		this.vy += Math.sin(vectorNormal);
+		this.vx += Math.cos(vectorNormal);
+		this.vx *= this.friction;
+		this.vy *= this.friction;
+		this.x += this.vx;
+		this.y += this.vy;
+
+		
 	}
 
 	static drawAll() {
