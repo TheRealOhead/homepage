@@ -32,7 +32,9 @@ const doodles = [
 	new Doodle('2023 Last Day of School Countdown (DHS seniors)','For my high-school senior friends :)','https://therealohead.github.io/2023-eos/?senior'),
 	new Doodle('2023 Last Day of School Countdown (DHS non-seniors)','For my high-school non-senior friends :)','https://therealohead.github.io/2023-eos'),
 	new Doodle('Neverending Legacy Mods','A collection of mods I made for Orteil\'s other game: Neverending Legacy','https://therealohead.github.io/neverending-legacy-mods'),
-	new Doodle('Dancing Letters','Y\'know those goofy dancing letter gifs? I made a page that displays those for whatever you type','https://therealohead.github.io/dancing-letters')
+	new Doodle('Dancing Letters','Y\'know those goofy dancing letter gifs? I made a page that displays those for whatever you type','https://therealohead.github.io/dancing-letters'),
+	new Doodle('Site Background','Just the background of this site to play around with the little orbiting dots (Doesn\'t work on mobile)','./justBackground.html')
 ]
+
 
 doodles.forEach(d=>{d.populate()})

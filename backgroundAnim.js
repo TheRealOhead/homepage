@@ -30,7 +30,7 @@ let holidays = [
 	},
 	{ // April Fools Day
 		isToday:month == 4 && day == 1,
-		colors:['black']
+		colors:['white']
 	},
 	{ // Fourth of July
 		isToday:month == 7 && day == 4,
@@ -39,6 +39,10 @@ let holidays = [
 	{ // St. Patrick's Day
 		isToday:month == 3 && day == 17,
 		colors:['orange','green']
+	},
+	{ // Pride month
+		isToday:month == 6,
+		colors:['red','orange','yellow','green','blue','purple']
 	}
 ]
 
@@ -48,20 +52,36 @@ const cursor = {
 	y:undefined,
 	clicked:false
 }
-
 document.body.addEventListener('mousemove',e=>{
 	cursor.x = e.clientX;
 	cursor.y = e.clientY;
 })
-
 document.body.addEventListener('mousedown',e=>{cursor.clicked = true});
 document.body.addEventListener('mouseup',e=>{cursor.clicked = false});
 
+
+let doGravity = false;
+const konami = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a']
+let konamiIndex = 0;
+
+document.body.addEventListener('keydown',e=>{
+	if (e.key == konami[konamiIndex]) {
+		konamiIndex++;
+	} else {
+		konamiIndex = 0;
+	};
+	if (konamiIndex == konami.length) {
+		doGravity = !doGravity;
+		konamiIndex = 0;
+	}
+});
 
 class Particle {
 	static list = [];
 	static count = 25;
 	friction = .99;
+	wallFriction = .75;
+	radius = (month == 4 && day == 1) ? Math.random() * 120 + 2 : 2;
 	id = undefined;
 
 	constructor() {
@@ -84,33 +104,40 @@ class Particle {
 		})
 
 		ctx.beginPath();
-		ctx.arc(this.x, this.y, 2, 0, 2 * Math.PI);
+		ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
 		ctx.fill();
 	}
 
 	update() {
 
 		if (cursor.x == undefined || cursor.y == undefined) return;
-
+		
 		// This is horrifying
 		let directionToCursor = Math.atan2(cursor.y-this.y, cursor.x-this.x);
 
+		if (!doGravity) {
+			// Go toward cursor
+			if (!cursor.clicked) {
+				this.vy += Math.sin(directionToCursor);
+				this.vx += Math.cos(directionToCursor);
+			}
+			// Go away from cursor
+			else {
+				this.vy -= Math.sin(directionToCursor);
+				this.vx -= Math.cos(directionToCursor);
+			}
+		} else {
+			this.vy += .4;
+		}
+
+
 		// Bounce off walls
-		if (this.y < 0) this.vy = Math.abs(this.vy);
-		if (this.x < 0) this.vx = Math.abs(this.vx);
-		if (this.y > c.height) this.vy = -Math.abs(this.vy);
-		if (this.x > c.width) this.vx = -Math.abs(this.vx);
+		if (this.y < this.radius) this.vy = Math.abs(this.vy) * this.wallFriction;
+		if (this.x < this.radius) this.vx = Math.abs(this.vx) * this.wallFriction;
+		if (this.y > c.height - this.radius) this.vy = -Math.abs(this.vy) * this.wallFriction;
+		if (this.x > c.width - this.radius) this.vx = -Math.abs(this.vx) * this.wallFriction;
 		
-		// Go toward cursor
-		if (!cursor.clicked) {
-			this.vy += Math.sin(directionToCursor);
-			this.vx += Math.cos(directionToCursor);
-		}
-		// Go away from cursor
-		else {
-			this.vy -= Math.sin(directionToCursor);
-			this.vx -= Math.cos(directionToCursor);
-		}
+
 
 		// Apply friction
 		this.vx *= this.friction;
@@ -139,6 +166,10 @@ class Particle {
 	}
 
 	static make() {
+		if (/Android|iPhone/i.test(navigator.userAgent)) { // Disable on mobile
+			return;
+		}
+
 		for (let i = 0; i < this.count; i++) {
 			new this();
 		}
