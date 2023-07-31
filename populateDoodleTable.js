@@ -28,6 +28,7 @@ const table = document.getElementById('doodle-table');
 const doodles = [
 	new Doodle('Cookie Clicker Gift Code Editor','The current <a href="https://orteil.dashnet.org/cookieclicker/beta">beta version of Cookie Clicker</a> has a gift code feature. I made an editor for them','https://therealohead.github.io/cookie-clicker-gift-code-editor/'),
 	new Doodle('Matcher','A simple enough block-break puzzle game','https://therealohead.github.io/matcher/'),
+	new Doodle('Conway\'s Game of Life','My implementation of Conway\'s Game of Life','https://therealohead.github.io/cgol/'),
 	new Doodle('Tax TD','An unfinished demo for a tower defense game about not paying taxes','https://therealohead.github.io/tax-td/'),
 	new Doodle('2024 Last Day of School Countdown (DHS seniors)','For my high-school friends :)','https://therealohead.github.io/2023-eos/?senior'),
 	new Doodle('Neverending Legacy Mods','A collection of mods I made for Orteil\'s other game: <a href="https://orteil.dashnet.org/legacy">Neverending Legacy</a>','https://therealohead.github.io/neverending-legacy-mods'),
