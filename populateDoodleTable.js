@@ -33,6 +33,7 @@ const doodles = [
 	//new Doodle('Tax TD','An unfinished demo for a tower defense game about not paying taxes','https://therealohead.github.io/tax-td/'),
 	new Doodle('Neverending Legacy Mods','A collection of mods I made for Orteil\'s other game: <a href="https://orteil.dashnet.org/legacy">Neverending Legacy</a>','https://therealohead.github.io/neverending-legacy-mods'),
 	new Doodle('Dancing Letters','Y\'know those goofy dancing letter gifs? I made a page that displays those for whatever you type','https://therealohead.github.io/dancing-letters'),
+	new Doodle('Link Bundler','A really simple tool for squashing multiple links into one, mostly for hyperlinks in forums and wikis','https://therealohead.github.io/LinkBundler/'),
 	new Doodle('Site Background','Just the background of this site to play around with the little orbiting dots (Doesn\'t work on mobile)','./justBackground.html')
 ]
 
